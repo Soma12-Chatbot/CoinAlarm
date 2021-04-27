@@ -17,9 +17,9 @@ function name2Market (name) {
     else return market;
 }
 module.exports = {
-    getNowPrice: async(req, res) => {
+    getNowPrice: async (coin) => {
         try {
-            const name = req.name;
+            const name = coin;
             const market = await name2Market(name);
             const url = 'https://api.upbit.com/v1/ticker?markets=' + market;
             const options = {method: 'GET'};
@@ -27,7 +27,7 @@ module.exports = {
             .then(res => res.json())
             .then(json => {
                 console.log(json);
-                return json[0]['trade_price']
+                return json;
             });
             return now_price;
         } catch (err) {
