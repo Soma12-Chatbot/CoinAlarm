@@ -7,11 +7,11 @@ function name2Market (name) {
     .then(res => res.json())
     .then(json => {
         for (i in json) {
-            if (json[i]["korean_name"] === name || json[i]['english_name'] === name) {
+            if ((json[i]["korean_name"] === name || json[i]['english_name'] === name) && json[i]['market'].startsWith('KRW')) { //"KRW-CHZ"
             return json[i]["market"];
             }
         }
-    })
+    })  
     .catch(err => console.error('error:' + err));
     if (!market) console.log("error occurred");
     else return market;

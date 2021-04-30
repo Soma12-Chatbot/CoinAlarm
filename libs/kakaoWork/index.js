@@ -14,8 +14,15 @@ kakaoInstance.get('/v1/users.list');
 
 // 유저 목록 검색 (1)
 exports.getUserList = async () => {
-  const res = await kakaoInstance.get('/v1/users.list');
-  return res.data.users;
+  let res = await kakaoInstance.get('/v1/users.list?limit=100'),
+      users = res.data.users;
+
+  while (res.data.cursor !== undefined && res.data.cursor !== null && res.data.cursor !== ''){
+	  res = await kakaoInstance.get(`/v1/users.list?cursor=${res.data.cursor}`);
+	  users = users.concat(res.data.users);
+  }
+	  
+  return users;
 };
 
 // 채팅방 생성 (2)
